@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import axios from 'axios';
 import AuthContext from '../../Store/AuthContext';
 import './AuthForm.css';
@@ -9,7 +9,7 @@ const AuthForm = () => {
     const [isLoading, setIsLoading] = useState(false)
     const emailRef = useRef()
     const passRef = useRef()
-    const history = useHistory
+    // const history = useHistory
     const ctx = useContext(AuthContext)
 
     const toggleHandler = () => {

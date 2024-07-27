@@ -9,13 +9,24 @@ const Profile = () => {
     const photoURLRef = useRef()
     const ctx = useContext(AuthContext)
 
-    // useEffect(async () => {
-    //     const res = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDDAQiZzzpwYaAlySsjnq51_GhGolj3OeE', {
-    //         idToken: ctx.token
-    //     })
-    //     const data = await res.data
-    //     console.log(data)
-    // }, [])
+    useEffect(() => {
+        async function getData() {
+            try {
+                const res = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDDAQiZzzpwYaAlySsjnq51_GhGolj3OeE', {
+                    idToken: ctx.token
+                })
+                const data = await res.data
+                // console.log(data)
+                if (data.users[0].displayName) {
+                    fullNameRef.current.value = data.users[0].displayName
+                    setIsComplete(true)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getData()
+    }, [ctx.token])
 
     const submitHandler = async (e) => {
         e.preventDefault()
@@ -30,6 +41,7 @@ const Profile = () => {
                 returnSecureToken: true
             })
             const data = await response.data
+            console.log(data)
             setIsComplete(true)
         } catch (error) {
             console.log(error)
