@@ -23,7 +23,8 @@ const AuthForm = () => {
             email: enteredEmail,
             password: enteredPass,
             returnSecureToken: true
-        }
+        };
+        const changedMail = enteredEmail.replace('@', '').replace('.', '').replace('.', '')
 
         setIsLoading(true)
         let url = ''
@@ -36,8 +37,8 @@ const AuthForm = () => {
         try {
             const response = await axios.post(url, userCred)
             const data = await response.data
-            console.log(data)
-            ctx.onLogin(data.idToken)
+            // console.log(data)
+            ctx.onLogin(data.idToken, changedMail)
         } catch (error) {
             alert(error)
             console.log(error)

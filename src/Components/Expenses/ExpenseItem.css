@@ -1,0 +1,122 @@
+.expense-list{
+    list-style: none;
+    padding: 0;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+.expense-list ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.expense-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
+/* 
+.expense-amount {
+    color: #9e443e;
+}
+.expense-des {
+    position: absolute;
+    left: 20%;
+    font-size: larger;
+    color: #88170f;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.expense-catg {
+    position: absolute;
+    left: 40%;
+    font-size: larger;
+    color: #88170f;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.expense-item-button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    margin-left: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.expense-item-button-edit {
+    position: absolute;
+    right: 10%;
+    width: 57px;
+    background-color: #923829;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    margin-left: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.expense-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.expense-actions {
+
+} */
+
+
+.expense-amount, 
+.expense-desc, 
+.expense-catg {
+    margin: 0 10px;
+    font-size: 1.25rem;
+}
+
+.expense-amount {
+    color: #9e443e;
+    font-weight: bold;
+}
+
+.expense-desc,
+.expense-catg {
+    /* font-size: large; */
+    color: #88170f;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.expense-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.expense-item-button,
+.expense-item-button-edit {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.expense-item-button:hover,
+.expense-item-button-edit:hover {
+    background-color: rgb(222, 17, 17);
+}
+/* 
+.expense-item-button-edit {
+    background-color: #923829;
+} */
+
+.expense-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
