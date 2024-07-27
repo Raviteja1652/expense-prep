@@ -1,0 +1,21 @@
+.profile-form {
+    margin: auto;
+    margin-top: 15%;
+    max-width: 50rem;
+    width: 95%;
+    background: lightblue;
+    padding: 2rem;
+}
+
+.input-fields {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.update-button {
+    margin: auto;
+    align-items: center;
+    color: aliceblue;
+    padding: 5px;
+    font-size: large;
+}
