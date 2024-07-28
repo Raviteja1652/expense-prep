@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Switch, Route, Redirect } from 'react-router-dom'
 import AuthForm from "./Components/Auth/AuthForm";
 import Layout from "./Components/Layout/Layout";
@@ -9,6 +9,11 @@ import Expenses from "./Components/Expenses/Expenses";
 function App() {
   const ctx = useContext(AuthContext)
   const token = !!ctx.token
+
+  useEffect(() => {
+    ctx.onPageLoad()
+  }, [])
+
   return (
     <Layout>
       <Switch>
@@ -19,7 +24,7 @@ function App() {
           <Profile />
         </Route>}
         {token && <Route path='/' exact>
-          <Redirect to='/profile' />
+          <Redirect to='/expenses' />
         </Route>}
         {token && <Route path='/expenses'>
           <Expenses />
@@ -28,6 +33,7 @@ function App() {
         <Route path='*'>
           <Redirect to='/' />
         </Route>
+
       </Switch>
     </Layout>
   );

@@ -1,13 +1,22 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Expenses.css';
 import ExpenseItem from './ExpenseItem';
 import AuthContext from '../../Store/AuthContext';
 
 const Expenses = () => {
+    const [toEdit, setToEdit] = useState(null)
     const amountRef = useRef()
     const descRef = useRef()
     const ctgrRef = useRef()
     const ctx = useContext(AuthContext)
+
+    useEffect(() => {
+        if (toEdit) {
+            amountRef.current.value = toEdit.amount;
+            descRef.current.value = toEdit.description;
+            ctgrRef.current.value = toEdit.category
+        }
+    }, [toEdit])
 
     const submitHandler = e => {
         e.preventDefault()
@@ -17,11 +26,19 @@ const Expenses = () => {
             description: descRef.current.value,
             category: ctgrRef.current.value
         }
-        
-        ctx.onSubmitExpense(enteredData)
-
+        if (toEdit) {
+            ctx.editExpense(enteredData, toEdit.id)
+        } else {
+            ctx.onSubmitExpense(enteredData)
+        }
+        setToEdit(null)
         amountRef.current.value = ''
         descRef.current.value = ''
+    };
+
+    const editHandler = (id) => {
+        const expenseToEdit = ctx.expenses.find(expense => expense.id === id)
+        setToEdit(expenseToEdit)
     }
 
     return (
@@ -47,7 +64,7 @@ const Expenses = () => {
                 <button className='expenses-button'>Add</button>
             </form>
             <div>
-                <ExpenseItem />
+                <ExpenseItem onClickEdit={editHandler} />
             </div>
         </div>
     )
