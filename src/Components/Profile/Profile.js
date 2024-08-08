@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import './Profile.css';
 import axios from 'axios';
 import AuthContext from '../../Store/AuthContext';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
     const [isComplete, setIsComplete] = useState(false)
@@ -9,14 +10,15 @@ const Profile = () => {
     const [intervalId, setIntervalId] = useState(null)
     const fullNameRef = useRef()
     const photoURLRef = useRef()
-    const ctx = useContext(AuthContext)
+    // const ctx = useContext(AuthContext)
+    const token = useSelector(state => state.auth.token)
 
     // console.log('RENDERING NORMAL COMPONENT')
 
     const getData = useCallback(async () => {
         try {
             const res = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDDAQiZzzpwYaAlySsjnq51_GhGolj3OeE', {
-                idToken: ctx.token
+                idToken: token
             })
             const data = await res.data
             console.log(data)
@@ -33,7 +35,7 @@ const Profile = () => {
         } catch (error) {
             console.log(error)
         }
-    }, [ctx.token, intervalId])
+    }, [token, intervalId])
 
     // if getData is used directly in effect function, component renders twice. So defined it outside and enclosed it in useCallback.
 
@@ -54,7 +56,7 @@ const Profile = () => {
 
         try {
             const response = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDDAQiZzzpwYaAlySsjnq51_GhGolj3OeE', {
-                idToken: ctx.token,
+                idToken: token,
                 displayName: enteredFullName,
                 photoUrl: enteredPhotoURL,
                 returnSecureToken: true
@@ -70,7 +72,7 @@ const Profile = () => {
         try {
             const res = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDDAQiZzzpwYaAlySsjnq51_GhGolj3OeE', {
                 requestType: "VERIFY_EMAIL",
-                idToken: ctx.token
+                idToken: token
             })
             const data = await res.data
             console.log(data.email)

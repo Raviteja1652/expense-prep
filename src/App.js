@@ -2,17 +2,29 @@ import React, { useContext, useEffect } from "react";
 import { Switch, Route, Redirect } from 'react-router-dom'
 import AuthForm from "./Components/Auth/AuthForm";
 import Layout from "./Components/Layout/Layout";
-import AuthContext from "./Store/AuthContext";
 import Profile from "./Components/Profile/Profile";
 import Expenses from "./Components/Expenses/Expenses";
+import { useDispatch, useSelector } from "react-redux";
+import { onPageLoad } from "./Store/expense-slice";
 
 function App() {
-  const ctx = useContext(AuthContext)
-  const token = !!ctx.token
+  // const ctx = useContext(AuthContext)
+  // const token = !!ctx.token
+
+  // useEffect(() => {
+  //   ctx.onPageLoad()
+  // }, [])
+  const dispatch = useDispatch()
+  const token = useSelector(state => state.auth.token)
 
   useEffect(() => {
-    ctx.onPageLoad()
-  }, [])
+    const token = localStorage.getItem('token')
+    const mailId = localStorage.getItem('mailId')
+
+    if (token && mailId) {
+      dispatch(onPageLoad(token, mailId))
+    }
+  }, [dispatch])
 
   return (
     <Layout>

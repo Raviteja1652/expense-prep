@@ -1,14 +1,18 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Expenses.css';
 import ExpenseItem from './ExpenseItem';
-import AuthContext from '../../Store/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { editExpense, submitExpense } from '../../Store/expense-slice';
 
 const Expenses = () => {
     const [toEdit, setToEdit] = useState(null)
     const amountRef = useRef()
     const descRef = useRef()
     const ctgrRef = useRef()
-    const ctx = useContext(AuthContext)
+    // const ctx = useContext(AuthContext)
+    const dispatch = useDispatch()
+    const expenses = useSelector(state => state.expense.expenses)
+    const mailId = useSelector(state => state.auth.mailId)
 
     useEffect(() => {
         if (toEdit) {
@@ -27,9 +31,12 @@ const Expenses = () => {
             category: ctgrRef.current.value
         }
         if (toEdit) {
-            ctx.editExpense(enteredData, toEdit.id)
+            // ctx.editExpense(enteredData, toEdit.id)
+            dispatch(editExpense(enteredData, toEdit.id, mailId))
+
         } else {
-            ctx.onSubmitExpense(enteredData)
+            // ctx.onSubmitExpense(enteredData)
+            dispatch(submitExpense(enteredData, mailId))
         }
         setToEdit(null)
         amountRef.current.value = ''
@@ -37,7 +44,8 @@ const Expenses = () => {
     };
 
     const editHandler = (id) => {
-        const expenseToEdit = ctx.expenses.find(expense => expense.id === id)
+        // const expenseToEdit = ctx.expenses.find(expense => expense.id === id)
+        const expenseToEdit = expenses.find(expense => expense.id === id)
         setToEdit(expenseToEdit)
     }
 

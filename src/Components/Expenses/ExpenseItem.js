@@ -2,11 +2,20 @@ import React, { useContext } from 'react'
 import Card from '../UI/Card';
 import './ExpenseItem.css'
 import AuthContext from '../../Store/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteExpense } from '../../Store/expense-slice';
 
 const ExpenseItem = (props) => {
-    const ctx = useContext(AuthContext);
+    // const ctx = useContext(AuthContext);
+    const dispatch = useDispatch()
+    const expenses = useSelector(state => state.expense.expenses)
+    const mailId = useSelector(state => state.auth.mailId)
 
-    const listOfExpenses = ctx.expenses.map(expense => (
+    const deleteHandler = id => {
+        dispatch(deleteExpense(id, mailId))
+    }
+
+    const listOfExpenses = expenses.map(expense => (
         <li key={expense.id} className='expense-item'>
 
             <div className='expense-amount'>{expense.amount}</div>
@@ -14,7 +23,7 @@ const ExpenseItem = (props) => {
             <div className='expense-catg'>{'  '}{expense.category}</div>
             <div className='expense-actions'>
                 <button className='expense-item-button-edit' onClick={() => props.onClickEdit(expense.id)}>Edit</button>
-                <button className='expense-item-button' onClick={() => ctx.deleteExpense(expense.id)}>Delete</button>
+                <button className='expense-item-button' onClick={() => deleteHandler(expense.id)}>Delete</button>
             </div>
 
         </li>

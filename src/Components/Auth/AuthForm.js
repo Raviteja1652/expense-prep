@@ -3,6 +3,8 @@ import React, { useContext, useRef, useState } from 'react';
 import axios from 'axios';
 import AuthContext from '../../Store/AuthContext';
 import './AuthForm.css';
+import { useDispatch } from 'react-redux';
+import { authActions, onLogin } from '../../Store/auth-slice';
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -10,7 +12,8 @@ const AuthForm = () => {
     const emailRef = useRef()
     const passRef = useRef()
     // const history = useHistory
-    const ctx = useContext(AuthContext)
+    // const ctx = useContext(AuthContext)
+    const dispatch = useDispatch()
 
     const toggleHandler = () => {
         setIsLogin(prev => !prev)
@@ -24,7 +27,8 @@ const AuthForm = () => {
             password: enteredPass,
             returnSecureToken: true
         };
-        const changedMail = enteredEmail.replace('@', '').replace('.', '').replace('.', '')
+        // const changedMail = enteredEmail.replace('@', '').replace('.', '').replace('.', '')
+        const changedMail = enteredEmail.replace(/[@.]/g, '')
 
         setIsLoading(true)
         let url = ''
@@ -38,7 +42,9 @@ const AuthForm = () => {
             const response = await axios.post(url, userCred)
             const data = await response.data
             // console.log(data)
-            ctx.onLogin(data.idToken, changedMail)
+            // ctx.onLogin(data.idToken, changedMail)
+            dispatch(onLogin(data.idToken, changedMail))
+
         } catch (error) {
             alert(error)
             console.log(error)
